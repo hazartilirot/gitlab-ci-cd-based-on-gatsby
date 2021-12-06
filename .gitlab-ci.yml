@@ -1,10 +1,15 @@
+image: node:16.13.1-alpine
+
+# if the image is specified at the top it'll be by default used in each stage
+# wherein is no image
+
 stages:
   - build
   - test
+  - deploy
 
 build website:
   stage: build
-  image: node:16.13.1-alpine
   script:
     - npm install --silent
     - npm install -g gatsby-cli
@@ -21,7 +26,6 @@ test artifact:
 
 test website:
   stage: test
-  image: node:16.13.1-alpine
   script:
     - npm install --silent
     - npm install -g gatsby-cli
@@ -33,3 +37,9 @@ test website:
 # default Gatsby ports: 9000 in serve, 8000 in develop
 # gatsby serve & - an ampersand runs the process in the background
 # | tac | tac | - is a workaround for an error: (23) Failed writing body https://stackoverflow.com/a/28879552/1521866
+
+deploy to surge:
+  stage: deploy
+  script:
+    - npm install --global surge
+    - surge --project ./public --domain carrotcabbage.surge.sh
