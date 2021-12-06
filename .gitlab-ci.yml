@@ -12,8 +12,23 @@ build website:
   artifacts:
     paths: 
       - ./public
+
 test artifact:
   stage: test
+  image: alpine
   script:
-    - grep "Gatsby" ./public/index.html
-    - grep "xxxxxxxxxxxx" ./public/index.html
+    - grep -q "Gatsby" ./public/index.html
+
+test website:
+  stage: test
+  image: node:16.13.1-alpine
+  script:
+    - npm install --silent
+    - npm install -g gatsby-cli
+    - gatsby serve &
+    - sleep 3
+    - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
+
+# default Gatsby ports: 9000 in serve, 8000 in develop
+# gatsby serve & - an ampersand runs the process in the background
+# | tac | tac | - is a workaround for an error: (23) Failed writing body https://stackoverflow.com/a/28879552/1521866
