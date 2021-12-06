@@ -27,6 +27,7 @@ test website:
     - npm install -g gatsby-cli
     - gatsby serve &
     - sleep 3
+    - apk --no-cache add curl
     - curl "http://localhost:9000" | tac | tac | grep -q "Gatsby"
 
 # default Gatsby ports: 9000 in serve, 8000 in develop
