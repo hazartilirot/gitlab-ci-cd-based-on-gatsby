@@ -1,4 +1,9 @@
+stages:
+  - build
+  - test
+
 build website:
+  stage: build
   image: node:16.13.1-alpine
   script:
     - npm install --silent
@@ -7,3 +12,8 @@ build website:
   artifacts:
     paths: 
       - ./public
+test artifact:
+  stage: test
+  script:
+    - grep "Gatsby" ./public/index.html
+    - grep "xxxxxxxxxxxx" ./public/index.html
