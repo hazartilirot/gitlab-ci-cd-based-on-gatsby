@@ -12,6 +12,10 @@ cache:
   paths:
     - node_modules/
 
+variables: 
+  STAGING_DOMAIN: carrotcabbage-staging.surge.sh
+  PRODUCTION_DOMAIN: carrotcabbage.surge.sh
+
 build website:
   stage: build
   script:
@@ -44,19 +48,19 @@ deploy staging:
   stage: deploy staging
   environment:
     name: staging
-    url: https://carrotcabbage-staging.surge.sh
+    url: https://$STAGING_DOMAIN
   script:
     - npm install --global surge
-    - surge --project ./public --domain carrotcabbage-staging.surge.sh
+    - surge --project ./public --domain $STAGING_DOMAIN
 
 deploy production:
   stage: deploy production
   environment:
     name: production
-    url: https://carrotcabbage-staging.surge.sh
+    url: https://$PRODUCTION_DOMAIN
   script:
     - npm install --global surge
-    - surge --project ./public --domain carrotcabbage.surge.sh
+    - surge --project ./public --domain $PRODUCTION_DOMAIN
 
 production tests:
   image: alpine
