@@ -67,7 +67,7 @@ deploy review:
       - ./public
 
 destroy review:
-  stage: destroy review
+  stage: deploy review
   variables: 
     GIT_STRATEGY: none
   script:
