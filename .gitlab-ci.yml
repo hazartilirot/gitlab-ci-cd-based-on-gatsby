@@ -50,9 +50,6 @@ test website:
 
 deploy review:
   stage: deploy review
-  environment:
-    name: review/$CI_COMMIT_REF_NAME
-    url: https://carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
   only:
     - merge_requests
   script:
@@ -61,9 +58,25 @@ deploy review:
     - gatsby build
     - npm install --global surge
     - surge --project ./public --domain carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    url: https://carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
+    on_stop: destroy review
   artifacts:
     paths:
       - ./public
+
+destroy review:
+  stage: destroy review
+  variables: 
+    GIT_STRATEGY: none
+  script:
+    - npm install --global surge
+    - surge teardown carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
+  when: manual
+  environment:
+    name: review/$CI_COMMIT_REF_NAME
+    action: stop
 
 deploy staging:
   stage: deploy staging
