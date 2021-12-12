@@ -50,11 +50,11 @@ test website:
 
 deploy review:
   stage: deploy review
-  only: 
-    - merge_requests
   environment:
     name: review/$CI_COMMIT_REF_NAME
     url: https://carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
+  only:
+    - merge_requests
   script:
     - npm install --global surge
     - surge --project ./public --domain carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
