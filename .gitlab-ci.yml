@@ -54,11 +54,16 @@ deploy review:
     name: review/$CI_COMMIT_REF_NAME
     url: https://carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
   only:
-    - main
     - merge_requests
   script:
+    - npm install --silent
+    - npm install -g gatsby-cli
+    - gatsby build
     - npm install --global surge
     - surge --project ./public --domain carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
+    artifacts:
+      paths:
+        - ./public
 
 deploy staging:
   stage: deploy staging
