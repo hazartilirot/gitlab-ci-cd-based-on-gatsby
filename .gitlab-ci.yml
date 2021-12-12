@@ -61,9 +61,9 @@ deploy review:
     - gatsby build
     - npm install --global surge
     - surge --project ./public --domain carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
-    artifacts:
-      paths:
-        - ./public
+  artifacts:
+    paths:
+      - ./public
 
 deploy staging:
   stage: deploy staging
