@@ -54,6 +54,7 @@ deploy review:
     name: review/$CI_COMMIT_REF_NAME
     url: https://carrotcabbage-$CI_ENVIRONMENT_SLUG.surge.sh
   only:
+    - main
     - merge_requests
   script:
     - npm install --global surge
