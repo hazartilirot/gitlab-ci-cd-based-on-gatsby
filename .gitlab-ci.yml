@@ -68,6 +68,8 @@ deploy review:
 
 destroy review:
   stage: deploy review
+  only:
+    - merge_requests
   variables: 
     GIT_STRATEGY: none
   script:
